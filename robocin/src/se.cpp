@@ -6,7 +6,7 @@ using namespace std;
 
 #define PI 3.14159
 
-// Função para converter graus/s para rad/s
+//Função para converter de graus/segundo para rad/segundos
 void convertToRadians(double gyroRead[3]) {
     for (int i = 0; i < 3; i++) {
         gyroRead[i] *= (PI / 180.0);
@@ -15,22 +15,22 @@ void convertToRadians(double gyroRead[3]) {
 
 int main() {
     MPU6050 m(I2C_SDA, I2C_SCL);
-    double gyroRead[3] = {0.0, 0.0, 0.0}; // Array estático para leitura do giroscópio
+    double gyroRead[3] = {0.0, 0.0, 0.0}; //Vetor para ler o giroscópio
 
     if (!m.initialize()) {
         cout << "Erro ao inicializar sensor" << endl; 
         exit(1);
     }
 
-    m.setGyroConfig(GYRO_ST_OFF, GFS_500dps); //Configurando giroscópio com sensibilidade de 500 dps
+    m.setGyroConfig(GYRO_ST_OFF, GFS_250dps); //Configurando giroscópio com sensibilidade de 250 dps
 
-    // Leitura do giroscópio
+    //Leitura do giroscópio
     if (m.readGyro(gyroRead)) {
         cout << "Velocidade angular do eixo X: " << gyroRead[0] << " graus/s" << endl;
         cout << "Velocidade angular do eixo Y: " << gyroRead[1] << " graus/s" << endl;
         cout << "Velocidade angular do eixo Z: " << gyroRead[2] << " graus/s" << endl;
 
-        // Converter para radianos/s
+        //Converter para radianos/s
         convertToRadians(gyroRead);
 
         cout << "Velocidade angular em rad/s:" << endl;
@@ -38,8 +38,7 @@ int main() {
         cout << "Eixo Y: " << gyroRead[1] << " rad/s" << endl;
         cout << "Eixo Z: " << gyroRead[2] << " rad/s" << endl;
 
-        // Aqui você pode implementar a lógica para calcular a integral dos valores.
-        // Isso dependerá de um loop para ler continuamente os valores e integrar ao longo do tempo.
+        //Aqui irei implementar a lógica da integração da velocidade angular 
     } else {
         cout << "Erro ao ler dados do giroscópio" << endl; 
         exit(2);
